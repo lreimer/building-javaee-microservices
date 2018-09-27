@@ -68,7 +68,7 @@ public class HelloWorldResource {
 
 Create a new file called `Dockerfile` and add the following content:
 ```
-FROM qaware/zulu-alpine-payara-micro:8u181-5.183
+FROM qaware/zulu-centos-payara-micro:8u181-5.183
 
 COPY build/libs/javaee8-service.war /opt/payara/deployments/
 ```
@@ -92,7 +92,7 @@ COPY . /codebase/
 WORKDIR /codebase
 RUN ./gradlew build
 
-FROM qaware/zulu-alpine-payara-micro:8u181-5.183
+FROM qaware/zulu-centos-payara-micro:8u181-5.183
 
 COPY --from=builder /codebase/build/libs/javaee8-service.war /opt/payara/deployments/
 ```

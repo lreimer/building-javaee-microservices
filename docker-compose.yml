@@ -43,24 +43,24 @@ services:
         reservations:
           memory: 512M
 
-    postgres-db:
-      image: "postgres:9.6.3"
-      environment:
-      - POSTGRES_USER=javaee8
-      - POSTGRES_PASSWORD=12qwasyx
-      ports:
-      - "5432:5432"
-      networks:
-      - jee8net
-      labels:
-        kompose.service.type: nodeport
-      deploy:
-        replicas: 1
-        resources:
-          limits:
-            memory: 128M
-          reservations:
-            memory: 128M
+  postgres-db:
+    image: "postgres:9.6.3"
+    environment:
+    - POSTGRES_USER=javaee8
+    - POSTGRES_PASSWORD=12qwasyx
+    ports:
+    - "5432:5432"
+    networks:
+    - jee8net
+    labels:
+      kompose.service.type: nodeport
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M
 
 networks:
   jee8net:
