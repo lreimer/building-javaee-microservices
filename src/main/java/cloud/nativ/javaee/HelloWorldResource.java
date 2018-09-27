@@ -1,5 +1,12 @@
 package cloud.nativ.javaee;
 
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Metric;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
@@ -13,11 +20,19 @@ import static java.util.Optional.ofNullable;
 /**
  * The REST resource implementation class.
  */
+@ApplicationScoped
 @Path("hello")
 public class HelloWorldResource {
+
+    @Inject
+    @Metric(name = "helloCounter", absolute = true)
+    private Counter counter;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Timed(name = "helloWorld", absolute = true, unit = MetricUnits.MILLISECONDS)
     public JsonObject helloWorld() {
+        counter.inc();
         String hostname = ofNullable(getenv("HOSTNAME")).orElse("localhost");
         return Json.createObjectBuilder()
                 .add("message", "Cloud Native Application Development with Java EE.")
