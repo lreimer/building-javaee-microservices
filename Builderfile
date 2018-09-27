@@ -4,7 +4,7 @@ RUN mkdir /codebase
 COPY . /codebase/
 
 WORKDIR /codebase
-RUN ./gradlew build
+RUN ./gradlew --no-daemon build
 
 FROM qaware/zulu-centos-payara-micro:8u181-5.183
 
