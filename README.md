@@ -179,7 +179,6 @@ Add the following YAML to your `docker-compose.yml` to add a message queue and a
     - jee8net
 ```
 
-
 ## Deploying and Running Java EE on Kubernetes
 
 ### Use Docker and Docker Compose to deploy to local Kubernetes
