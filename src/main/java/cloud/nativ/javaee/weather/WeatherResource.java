@@ -13,8 +13,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 @Path("weather")
@@ -30,11 +33,13 @@ public class WeatherResource {
     @Operation(summary = "Get the current weather for a city.",
             description = "Retrieves the current weather via the OpenWeatherMap API.")
     @Path("/{city}")
-    public Response getWeather(
-            @Parameter(name = "city", required = true, example = "Rosenheim,de", schema = @Schema(type = SchemaType.STRING))
-            @PathParam("city") String city) {
-        // retrieve the weather from the repository
-        String weather = repository.getWeather(city);
-        return Response.ok(weather).build();
+    public void getWeather(@Suspended final AsyncResponse asyncResponse,
+                           @Parameter(name = "city", required = true, example = "Rosenheim,de",
+                                   schema = @Schema(type = SchemaType.STRING))
+                           @PathParam("city") String city) {
+
+        asyncResponse.setTimeout(5, TimeUnit.SECONDS);
+        asyncResponse.setTimeoutHandler(r -> r.resume(Response.status(Response.Status.SERVICE_UNAVAILABLE).build()));
+        asyncResponse.resume(Response.ok(repository.getWeather(city)).build());
     }
 }
