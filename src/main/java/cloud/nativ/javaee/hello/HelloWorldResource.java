@@ -1,5 +1,6 @@
-package cloud.nativ.javaee;
+package cloud.nativ.javaee.hello;
 
+import cloud.nativ.javaee.integration.CentralConfiguration;
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Metric;

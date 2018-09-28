@@ -1,6 +1,6 @@
 package cloud.nativ.javaee.weather;
 
-import cloud.nativ.javaee.CentralConfiguration;
+import cloud.nativ.javaee.integration.CentralConfiguration;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
@@ -8,9 +8,9 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import javax.annotation.PostConstruct;
-import javax.cache.annotation.CachePut;
 import javax.cache.annotation.CacheResult;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -31,13 +31,16 @@ public class OpenWeatherMapRepository {
     @Inject
     private CentralConfiguration configuration;
 
+    @Inject
+    private Event<CurrentWeather> weatherEvent;
+
     private OpenWeatherMap openWeatherMap;
 
     @PostConstruct
     void initialize() {
         try {
             openWeatherMap = RestClientBuilder.newBuilder()
-                    .baseUri(new URI("https://api.openweathermap.org"))
+                    .baseUri(new URI(configuration.getWeatherUri()))
                     .build(OpenWeatherMap.class);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e);
@@ -53,7 +56,11 @@ public class OpenWeatherMapRepository {
         LOGGER.log(Level.INFO, "Received {0}", response);
 
         JsonPointer pointer = Json.createPointer("/weather/0/main");
-        return ((JsonString) pointer.getValue(response)).getString();
+        String weather = ((JsonString) pointer.getValue(response)).getString();
+
+        weatherEvent.fireAsync(new CurrentWeather(city, weather));
+
+        return weather;
     }
 
     public String defaultWeather(String city) {

@@ -15,10 +15,12 @@ spec:
       - image: postgres:9.6.3
         name: postgres-db
         env:
-        - name: POSTGRES_PASSWORD
-          value: 12qwasyx
         - name: POSTGRES_USER
           value: javaee8
+        - name: POSTGRES_PASSWORD
+          value: 12qwasyx
+        - name: POSTGRES_DB
+          value: weather
         ports:
         - containerPort: 5432
         resources:

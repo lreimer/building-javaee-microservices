@@ -1,4 +1,4 @@
-package cloud.nativ.javaee;
+package cloud.nativ.javaee.integration;
 
 import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;

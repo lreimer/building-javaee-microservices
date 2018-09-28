@@ -1,4 +1,4 @@
-package cloud.nativ.javaee;
+package cloud.nativ.javaee.integration;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -20,11 +20,19 @@ public class CentralConfiguration {
     @ConfigProperty(name = "weather.appid", defaultValue = "5b3f51e527ba4ee2ba87940ce9705cb5")
     private Provider<String> weatherAppId;
 
+    @Inject
+    @ConfigProperty(name = "weather.uri", defaultValue = "https://api.openweathermap.org")
+    private Provider<String> weatherUri;
+
     public String getDefaultHostname() {
         return defaultHostname;
     }
 
     public String getWeatherAppId() {
         return weatherAppId.get();
+    }
+
+    public String getWeatherUri() {
+        return weatherUri.get();
     }
 }

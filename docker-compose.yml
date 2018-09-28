@@ -44,6 +44,7 @@ services:
     environment:
     - POSTGRES_USER=javaee8
     - POSTGRES_PASSWORD=12qwasyx
+    - POSTGRES_DB=weather
     ports:
     - "5432:5432"
     networks:
