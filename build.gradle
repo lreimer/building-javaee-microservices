@@ -10,8 +10,22 @@ lombok {
     sha256 = ""
 }
 
+configurations {
+    activemq {
+        description = "Active MQ dependencies"
+        transitive = true
+    }
+    postgresql {
+        description = "PostgreSQL dependencies"
+        transitive = true
+    }
+
+    providedCompile.extendsFrom postgresql
+}
+
 dependencies {
     providedCompile 'javax:javaee-api:8.0'
+    providedCompile 'javax.cache:cache-api:1.0.0'
 
     providedCompile 'org.eclipse.microprofile.config:microprofile-config-api:1.3'
     providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.1.1'
@@ -20,4 +34,20 @@ dependencies {
     providedCompile 'org.eclipse.microprofile.rest.client:microprofile-rest-client-api:1.1'
     providedCompile 'org.eclipse.microprofile.opentracing:microprofile-opentracing-api:1.1'
     providedCompile 'org.eclipse.microprofile.openapi:microprofile-openapi-api:1.0.1'
+
+    activemq 'org.apache.activemq:activemq-rar:5.15.6@rar'
+    postgresql 'org.postgresql:postgresql:42.2.5'
 }
+
+task copyActiveMqLibs(type: Copy) {
+    from configurations.activemq
+    into "$buildDir/activemq"
+}
+
+task copyPostgresqlLibs(type: Copy) {
+    from configurations.postgresql
+    into "$buildDir/postgresql"
+}
+
+assemble.dependsOn copyActiveMqLibs, copyPostgresqlLibs
+

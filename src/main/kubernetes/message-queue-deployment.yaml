@@ -6,21 +6,16 @@ metadata:
   name: message-queue
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
         io.kompose.service: message-queue
     spec:
       containers:
-      - image: vromero/activemq-artemis:2.6.2
+      - image: rmohr/activemq:5.15.6
         name: message-queue
-        env:
-        - name: ENABLE_JMX_EXPORTER
-          value: "true"
-        - name: ARTEMIS_USERNAME
-          value: admin
-        - name: ARTEMIS_PASSWORD
-          value: admin
         ports:
         - containerPort: 8161   # admin UI
         - containerPort: 61616  # the JMS port
@@ -32,4 +27,3 @@ spec:
           requests:
             memory: 512Mi
       restartPolicy: Always
-

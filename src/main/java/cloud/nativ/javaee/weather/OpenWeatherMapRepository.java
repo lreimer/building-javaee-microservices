@@ -8,6 +8,8 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import javax.annotation.PostConstruct;
+import javax.cache.annotation.CachePut;
+import javax.cache.annotation.CacheResult;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -45,6 +47,7 @@ public class OpenWeatherMapRepository {
     @Timeout(value = 5L, unit = ChronoUnit.SECONDS)
     @Retry(delay = 500L, maxRetries = 1)
     @Fallback(fallbackMethod = "defaultWeather")
+    @CacheResult(cacheName = "weatherCache")
     public String getWeather(String city) {
         JsonObject response = openWeatherMap.getWeather(city, configuration.getWeatherAppId());
         LOGGER.log(Level.INFO, "Received {0}", response);

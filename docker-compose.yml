@@ -20,10 +20,7 @@ services:
           memory: 640M
 
   message-queue:
-    image: vromero/activemq-artemis:2.6.2
-    environment:
-    - ARTEMIS_USERNAME=admin
-    - ARTEMIS_PASSWORD=admin
+    image: rmohr/activemq:5.15.6
     expose:
     - "61616"       # the JMS port
     - "1883"        # the MQTT port
