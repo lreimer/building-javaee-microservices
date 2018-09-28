@@ -4,6 +4,10 @@ import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Metric;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,6 +37,9 @@ public class HelloWorldResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @APIResponse(responseCode = "200", description = "The hello world response.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = JsonObject.class)))
+    @Operation(summary = "Do hello world.", description = "Retrieve JSON response with message and hostname.")
     @Timed(name = "helloWorld", absolute = true, unit = MetricUnits.MILLISECONDS)
     public JsonObject helloWorld() {
         counter.inc();
