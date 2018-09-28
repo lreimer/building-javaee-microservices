@@ -25,15 +25,18 @@ import static java.util.Optional.ofNullable;
 public class HelloWorldResource {
 
     @Inject
-    @Metric(name = "helloCounter", absolute = true)
+    @Metric(name = "helloWorldCounter", absolute = true)
     private Counter counter;
+
+    @Inject
+    private CentralConfiguration configuration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Timed(name = "helloWorld", absolute = true, unit = MetricUnits.MILLISECONDS)
     public JsonObject helloWorld() {
         counter.inc();
-        String hostname = ofNullable(getenv("HOSTNAME")).orElse("localhost");
+        String hostname = ofNullable(getenv("HOSTNAME")).orElse(configuration.getDefaultHostname());
         return Json.createObjectBuilder()
                 .add("message", "Cloud Native Application Development with Java EE.")
                 .add("hostname", hostname)

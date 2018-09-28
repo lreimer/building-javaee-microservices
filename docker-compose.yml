@@ -22,7 +22,6 @@ services:
   message-queue:
     image: vromero/activemq-artemis:2.6.2
     environment:
-    - ENABLE_JMX_EXPORTER=true
     - ARTEMIS_USERNAME=admin
     - ARTEMIS_PASSWORD=admin
     expose:
