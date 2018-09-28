@@ -1,6 +1,5 @@
 package cloud.nativ.javaee.weather;
 
-import cloud.nativ.javaee.integration.CentralConfiguration;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
@@ -29,7 +28,7 @@ import java.util.logging.Level;
 public class OpenWeatherMapRepository {
 
     @Inject
-    private CentralConfiguration configuration;
+    private OpenWeatherMapConfiguration configuration;
 
     @Inject
     private Event<CurrentWeather> weatherEvent;

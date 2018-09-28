@@ -2,7 +2,6 @@ package cloud.nativ.javaee.weather;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.enterprise.context.Dependent;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

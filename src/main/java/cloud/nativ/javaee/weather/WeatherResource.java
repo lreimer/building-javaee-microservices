@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 @Path("weather")
-public class OpenWeatherResource {
+public class WeatherResource {
 
     @Inject
     private OpenWeatherMapRepository repository;
