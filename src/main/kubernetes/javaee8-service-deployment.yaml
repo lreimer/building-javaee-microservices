@@ -12,7 +12,7 @@ spec:
         io.kompose.service: javaee8-service
     spec:
       containers:
-      - image: javaee8-service:1.0
+      - image: lreimer/javaee8-service:1.0.1
         name: javaee8-service
         ports:
         - containerPort: 8080
