@@ -51,8 +51,15 @@
     </div>
 
     <div class="row">
-        <h2>Current Weather Events</h2>
+        <div class="col-md-6"></div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Current Weather Events</h3>
+        </div>
+    </div>
+
     <div class="row">
         <div id="events" class="col-md-6">
 
