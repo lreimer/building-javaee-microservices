@@ -1,6 +1,5 @@
 package cloud.nativ.javaee.weather;
 
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -10,16 +9,19 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.NotBlank;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-@Log
+/**
+ * An asynchronous REST API to query the weather.
+ */
 @ApplicationScoped
 @Path("weather")
 public class WeatherResource {
@@ -42,13 +44,5 @@ public class WeatherResource {
         asyncResponse.setTimeout(5, TimeUnit.SECONDS);
         asyncResponse.setTimeoutHandler(r -> r.resume(Response.status(Response.Status.SERVICE_UNAVAILABLE).build()));
         asyncResponse.resume(Response.ok(repository.getWeather(city)).build());
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response send(@FormParam("city") @NotBlank String city) {
-        LOGGER.log(Level.INFO, "Received weather form POST request for city {0}", city);
-        return Response.ok(repository.getWeather(city)).build();
     }
 }

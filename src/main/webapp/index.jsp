@@ -35,7 +35,7 @@
                     var urlEncodedDataPairs = [];
                     var http = new XMLHttpRequest();
 
-                    http.open("POST", "/api/weather", true);
+                    http.open("POST", "/api/weather-station", true);
                     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
                     var city = document.getElementById('city').value;

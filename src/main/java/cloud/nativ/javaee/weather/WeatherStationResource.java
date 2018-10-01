@@ -6,11 +6,12 @@ import org.eclipse.microprofile.metrics.annotation.Gauge;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.inject.Inject;
+import javax.validation.constraints.NotBlank;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.sse.OutboundSseEvent;
 import javax.ws.rs.sse.Sse;
 import javax.ws.rs.sse.SseBroadcaster;
@@ -25,6 +26,9 @@ import java.util.logging.Level;
 @ApplicationScoped
 @Path("weather-station")
 public class WeatherStationResource {
+
+    @Inject
+    private OpenWeatherMapRepository repository;
 
     @Context
     private Sse sse;
@@ -55,6 +59,14 @@ public class WeatherStationResource {
 
         long count = registeredEventSinks.incrementAndGet();
         LOGGER.log(Level.INFO, "Currently {0} events sinks listening.", count);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response send(@FormParam("city") @NotBlank String city) {
+        LOGGER.log(Level.INFO, "Received weather form POST request for city {0}", city);
+        return Response.ok(repository.getWeather(city)).build();
     }
 
     @Gauge(unit = "none")
