@@ -21,4 +21,17 @@ spec:
             memory: 640Mi
           requests:
             memory: 640Mi
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /api/application.wadl
+            port: 8080
+          initialDelaySeconds: 90
+          periodSeconds: 5
+
       restartPolicy: Always
