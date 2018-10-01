@@ -708,8 +708,182 @@ Finally, we need to setup JPA and the persistence context by creating a `META-IN
 
 ## 9. Reactive UIs with Server-sent Events (SSE)
 
+Every good service or self-contained system (SCS) needs a UI. Java EE and JAX-RS provide SSE support to easily implement
+server-side push without the need for web sockets.
 
-## 9. Load Testing with Slapper (optional)
+So first, add the following JSP file to `sr/main/webapp/` to be able to query the current weather as well as receive 
+all current weather events.
+
+```jsp
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Building microservices with Java EE 8 and Microprofile APIs</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<div class="container theme-showcase" role="main">
+
+    <div class="jumbotron">
+        <h1>Java EE 8 Weather Station</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form action="" method="post" onsubmit="submitForm(); return false;">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" placeholder="Munich,de">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <script>
+                function submitForm() {
+                    var urlEncodedData;
+                    var urlEncodedDataPairs = [];
+                    var http = new XMLHttpRequest();
+
+                    http.open("POST", "/api/weather-station", true);
+                    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                    var city = document.getElementById('city').value;
+                    document.getElementById('city').value = "";
+
+                    urlEncodedDataPairs.push('city' + '=' + encodeURIComponent(city));
+
+                    urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+                    http.send(urlEncodedData);
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"></div>
+    </div>
+
+    <div class="row">
+        <div id="events" class="col-md-6">
+
+            <script>
+                if (typeof(EventSource) !== "undefined") {
+                    var source = new EventSource("/api/weather-station");
+
+                    source.addEventListener("event", function (e) {
+                        document.getElementById("events").innerHTML += "Current weather (SSE) in " + e.data + "<br>";
+                    }, false);
+                } else {
+                    document.getElementById("events").innerHTML = "Sorry, your browser does not support server-sent events...";
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+```
+
+Also make sure to active this page as welcome page in your `web.xml` file.
+
+```xml
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <distributable/>
+
+    <display-name>Weather Station</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
+```
+
+Finally, add the UI specific resource implementation to provide the POST based query endpoint as well as the SSE 
+broadcast implementation.
+
+```java
+@Log
+@ApplicationScoped
+@Path("weather-station")
+public class WeatherStationResource {
+
+    @Inject
+    private OpenWeatherMapRepository repository;
+
+    @Context
+    private Sse sse;
+    private SseBroadcaster sseBroadcaster;
+
+    private AtomicLong registeredEventSinks = new AtomicLong(0);
+
+    @PostConstruct
+    public void initialize() {
+        sseBroadcaster = sse.newBroadcaster();
+
+        sseBroadcaster.onClose((eventSink) -> {
+            long count = registeredEventSinks.decrementAndGet();
+            LOGGER.log(Level.INFO, "Closing sink. Currently {0} events sinks listening.", count);
+        });
+
+        sseBroadcaster.onError((sseEventSink, throwable) -> {
+            long count = registeredEventSinks.decrementAndGet();
+            LOGGER.log(Level.WARNING, "Error on event sink. Currently {0} events sinks listening.", new Object[]{count, throwable});
+        });
+    }
+
+    @GET
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public void fetch(@Context SseEventSink sseEventSink) {
+        LOGGER.info("Registering new SSE event sink with broadcaster.");
+        sseBroadcaster.register(sseEventSink);
+
+        long count = registeredEventSinks.incrementAndGet();
+        LOGGER.log(Level.INFO, "Currently {0} events sinks listening.", count);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Timed(name = "queryWeather", absolute = true, unit = MetricUnits.MILLISECONDS)
+    public Response queryWeather(@FormParam("city") @NotBlank String city) {
+        LOGGER.log(Level.INFO, "Received weather form POST request for city {0}", city);
+        return Response.ok(repository.getWeather(city)).build();
+    }
+
+    @Gauge(unit = "none")
+    public long registeredEventSinks() {
+        return registeredEventSinks.get();
+    }
+
+    public void broadcast(@ObservesAsync CurrentWeather currentWeather) {
+        OutboundSseEvent broadcastEvent = sse.newEventBuilder()
+                .name("event")
+                .data(currentWeather.toJson())
+                .mediaType(MediaType.APPLICATION_JSON_TYPE)
+                .build();
+
+        LOGGER.log(Level.INFO, "Broadcasting current weather event {0}.", broadcastEvent);
+        sseBroadcaster.broadcast(broadcastEvent);
+    }
+}
+```
+
+
+## X. Load Testing with Slapper (optional)
 
 You need to have the Slapper load test tool installed to do this. Create a targets file with the following content:
 ```
