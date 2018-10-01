@@ -896,7 +896,7 @@ GET http://localhost:8080/api/hello
 
 Issue the following command to start the load test: 
 ```
-$ /Users/lreimer/go/bin/slapper -targets slapper.targets
+$ /Users/${USER}/go/bin/slapper -targets slapper.targets
 ```
 
 # Maintainer
