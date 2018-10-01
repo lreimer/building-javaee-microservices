@@ -1,7 +1,9 @@
 package cloud.nativ.javaee.weather;
 
 import lombok.extern.java.Log;
+import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -64,7 +66,8 @@ public class WeatherStationResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response send(@FormParam("city") @NotBlank String city) {
+    @Timed(name = "queryWeather", absolute = true, unit = MetricUnits.MILLISECONDS)
+    public Response queryWeather(@FormParam("city") @NotBlank String city) {
         LOGGER.log(Level.INFO, "Received weather form POST request for city {0}", city);
         return Response.ok(repository.getWeather(city)).build();
     }

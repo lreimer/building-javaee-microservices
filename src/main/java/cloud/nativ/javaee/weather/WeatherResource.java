@@ -1,5 +1,7 @@
 package cloud.nativ.javaee.weather;
 
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -35,6 +37,7 @@ public class WeatherResource {
             content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class)))
     @Operation(summary = "Get the current weather for a city.",
             description = "Retrieves the current weather via the OpenWeatherMap API.")
+    @Timed(name = "getWeather", absolute = true, unit = MetricUnits.MILLISECONDS)
     @Path("/{city}")
     public void getWeather(@Suspended final AsyncResponse asyncResponse,
                            @Parameter(name = "city", required = true, example = "Rosenheim,de",
