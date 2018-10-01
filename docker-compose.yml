@@ -59,6 +59,13 @@ services:
         reservations:
           memory: 128M
 
+  # openapi-gui:
+  #   image: mermade/openapi-gui
+  #   ports:
+  #   - "3000:3000"
+  #   networks:
+  #   - jee8net
+
 networks:
   jee8net:
     driver: bridge
