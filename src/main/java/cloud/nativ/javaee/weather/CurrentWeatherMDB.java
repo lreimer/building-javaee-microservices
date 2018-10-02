@@ -5,7 +5,6 @@ import lombok.extern.java.Log;
 import javax.annotation.PostConstruct;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
-import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -34,8 +33,6 @@ import java.util.logging.Level;
 })
 public class CurrentWeatherMDB implements MessageListener {
 
-    @Inject
-    private CurrentWeatherStorage storage;
     private Jsonb jsonb;
 
     @PostConstruct
@@ -51,7 +48,7 @@ public class CurrentWeatherMDB implements MessageListener {
         String body = getBody(message);
         if (body != null) {
             CurrentWeather currentWeather = jsonb.fromJson(body, CurrentWeather.class);
-            storage.save(currentWeather);
+            // TODO store current weather event
         }
     }
 
