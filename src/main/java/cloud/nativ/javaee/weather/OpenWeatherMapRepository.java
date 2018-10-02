@@ -9,7 +9,6 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import javax.annotation.PostConstruct;
 import javax.cache.annotation.CacheResult;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -29,9 +28,6 @@ public class OpenWeatherMapRepository {
 
     @Inject
     private OpenWeatherMapConfiguration configuration;
-
-    @Inject
-    private Event<CurrentWeather> weatherEvent;
 
     private OpenWeatherMap openWeatherMap;
 
@@ -57,7 +53,7 @@ public class OpenWeatherMapRepository {
         JsonPointer pointer = Json.createPointer("/weather/0/main");
         String weather = ((JsonString) pointer.getValue(response)).getString();
 
-        weatherEvent.fireAsync(new CurrentWeather(city, weather));
+        // TODO fire current weather event async here
 
         return weather;
     }
