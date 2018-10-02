@@ -713,7 +713,7 @@ Finally, we need to setup JPA and the persistence context by creating a `META-IN
 Every good service or self-contained system (SCS) needs a UI. Java EE and JAX-RS provide SSE support to easily implement
 server-side push without the need for web sockets.
 
-So first, add the following JSP file to `sr/main/webapp/` to be able to query the current weather as well as receive 
+So first, add the following JSP file to `src/main/webapp/` to be able to query the current weather as well as receive 
 all current weather events.
 
 ```jsp
