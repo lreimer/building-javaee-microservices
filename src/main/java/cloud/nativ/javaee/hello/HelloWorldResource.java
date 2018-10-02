@@ -23,7 +23,7 @@ import static java.lang.System.getenv;
 import static java.util.Optional.ofNullable;
 
 /**
- * The REST resource implementation class.
+ * The hello world REST resource implementation class.
  */
 @ApplicationScoped
 @Path("hello")
