@@ -1,17 +1,3 @@
-deploy --type rar --name activemq-rar /opt/payara/deployments/activemq-rar.rar
-
-create-resource-adapter-config --property ServerUrl='tcp://message-queue:61616':UserName='admin':Password='admin' activemq-rar
-create-connector-connection-pool --raname activemq-rar --connectiondefinition javax.jms.ConnectionFactory --ping false --isconnectvalidatereq true jms/activeMqConnectionPool
-create-connector-resource --poolname jms/activeMqConnectionPool jms/activeMqConnectionFactory
-
-create-admin-object --raname activemq-rar --restype javax.jms.Topic --property PhysicalName=WEATHER.EVENTS jms/WeatherEvents
-
-create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property portNumber=5432:password='12qwasyx':user='javaee8':serverName=postgres-db:databaseName='weather' PostgresPool
-create-jdbc-resource --connectionpoolid PostgresPool jdbc/WeatherDb
-
-set resources.jdbc-connection-pool.PostgresPool.connection-validation-method=custom-validation
-set resources.jdbc-connection-pool.PostgresPool.validation-classname=org.glassfish.api.jdbc.validation.PostgresConnectionValidation
-set resources.jdbc-connection-pool.PostgresPool.is-connection-validation-required=true
-set resources.jdbc-connection-pool.PostgresPool.fail-all-connections=true
+# TODO add further asadmin commands here for JMS and JNDI resources
 
 deploy --type war /opt/payara/deployments/javaee8-service.war

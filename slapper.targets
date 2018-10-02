@@ -1,5 +1,0 @@
-GET http://localhost:8080/api/weather/Munich,de
-GET http://localhost:8080/api/weather/Rosenheim,de
-GET http://localhost:8080/api/weather/London,uk
-GET http://localhost:8080/api/weather/Bucharest,ro
-GET http://localhost:8080/api/hello
