@@ -259,6 +259,8 @@ $ gcloud config config-helper --format=json | jq .credential.access_token
 $ kubectl proxy
 
 $ open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+$ gcloud container clusters delete javaee8-services
 ```
 
 
