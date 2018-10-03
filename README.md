@@ -243,8 +243,24 @@ You may want to modify the conversion using labels, like
 
 Then issue the following command to convert the `docker-compose.yml` into Kubernetes YAMLs.
 ```
-kompose convert -f docker-compose.yml -o build/
+kompose convert -f docker-compose.yml -o build/kubernetes/
 ```
+
+
+### Creating a Kubernetes cluster with GCP
+
+```java
+$ gcloud container clusters create javaee8-services --num-nodes=5 --enable-autoscaling --min-nodes=5 --max-nodes=7
+$ gcloud container clusters describe javaee8-services
+
+$ kubectl cluster-info
+
+$ gcloud config config-helper --format=json | jq .credential.access_token
+$ kubectl proxy
+
+$ open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+```
+
 
 ### Deploy and Run everything on Kubernetes
 
@@ -258,6 +274,9 @@ kubectl get services
 
 kubectl rm -f src/main/kubernetes/
 ```
+
+
+
 
 ## 5. Getting started with Eclipse MicroProfile APIs
 
