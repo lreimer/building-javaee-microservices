@@ -10,7 +10,7 @@ import javax.ws.rs.core.Application;
 /**
  * Configures a JAX-RS endpoint.
  */
-@LoginConfig(authMethod = "MP-JWT")
+@LoginConfig(authMethod = "MP-JWT", realmName = "MP-JWT")
 @ApplicationScoped
 @DeclareRoles({"architect", "developer", "jcon2018"})
 @ApplicationPath("api")

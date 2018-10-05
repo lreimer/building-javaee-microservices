@@ -43,5 +43,4 @@ public class JwtResource {
                 .add("issuer", Objects.toString(jsonWebToken.getIssuer(), "unknown"))
                 .build();
     }
-
 }
