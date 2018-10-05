@@ -12,11 +12,11 @@ import javax.inject.Inject;
 public class CentralConfiguration {
 
     @Inject
-    @ConfigProperty(name = "default.hostname", defaultValue = "localhost")
-    private String defaultHostname;
+    @ConfigProperty(name = "hostname", defaultValue = "localhost")
+    private String hostname;
 
-    public String getDefaultHostname() {
-        return defaultHostname;
+    public String getHostname() {
+        return hostname;
     }
 
 }

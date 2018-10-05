@@ -19,9 +19,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import static java.lang.System.getenv;
-import static java.util.Optional.ofNullable;
-
 /**
  * The REST resource implementation class.
  */
@@ -44,9 +41,9 @@ public class HelloWorldResource {
     @Timed(name = "helloWorld", absolute = true, unit = MetricUnits.MILLISECONDS)
     public JsonObject helloWorld() {
         counter.inc();
-        String hostname = ofNullable(getenv("HOSTNAME")).orElse(configuration.getDefaultHostname());
+        String hostname = configuration.getHostname();
         return Json.createObjectBuilder()
-                .add("message", "Cloud Native Application Development with Java EE.")
+                .add("message", "Building Microservices with Java EE 8 and MicroProfile.")
                 .add("hostname", hostname)
                 .build();
     }
