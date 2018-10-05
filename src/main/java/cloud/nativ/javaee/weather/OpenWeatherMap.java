@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.concurrent.CompletionStage;
 
 /**
  * The OpenWeatherMap API client interface.
@@ -18,4 +19,8 @@ public interface OpenWeatherMap {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     JsonObject getWeather(@QueryParam("q") String city, @QueryParam("APPID") String appid);
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    CompletionStage<JsonObject> getWeatherAsync(@QueryParam("q") String city, @QueryParam("APPID") String appid);
 }

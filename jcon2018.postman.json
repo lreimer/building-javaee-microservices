@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "bfb55eca-392c-4895-b72f-ebac084419f4",
+		"name": "JCON 2018",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Default Version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET application/json Version",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET application/vnd.version.v1+json Version",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.version.v1+json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET application/vnd.version.v2+json Version",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.version.v2+json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST JSON-P Default",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n    \"aString\": \"Hello Json-P\",\n    \"aInteger\": 42,\n    \"aBoolean\": true,\n    \"aNullValue\": null\n}]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/json-p",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-p"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH JSON-P Default",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n {\n \"op\": \"replace\",\n \"path\": \"/0/aString\",\n \"value\": \"Patched JSON-P.\"\n }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/json-p",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-p"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET JSON-P Default",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/json-p",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-p"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST JSON-B Custom",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"greeting\": \"Custom Greeting.\",\n    \"answer-to-everything\": 23,\n    \"today\": null,\n    \"unknown\": \"ignored\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/json-b/custom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-b",
+						"custom"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET JSON-B Custom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/json-b/custom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-b",
+						"custom"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET JSON-B Default",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/json-b/default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-b",
+						"default"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST JSON-B Default",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"greeting\": \"Custom Greeting.\",\n    \"answerToEverything\": 23,\n    \"today\": null,\n    \"unknown\": \"ignored\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/json-b/default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"json-b",
+						"default"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All metrics (Prometheus)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/metrics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application metrics (Prometheus)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/metrics/application",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"metrics",
+						"application"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET OpenAPI definition",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/openapi/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openapi",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

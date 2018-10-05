@@ -21,5 +21,6 @@ dependencies {
     providedCompile 'org.eclipse.microprofile.rest.client:microprofile-rest-client-api:1.1'
     providedCompile 'org.eclipse.microprofile.opentracing:microprofile-opentracing-api:1.1'
     providedCompile 'org.eclipse.microprofile.openapi:microprofile-openapi-api:1.0.1'
+    providedCompile 'org.eclipse.microprofile.jwt:microprofile-jwt-auth-api:1.1'
 }
 

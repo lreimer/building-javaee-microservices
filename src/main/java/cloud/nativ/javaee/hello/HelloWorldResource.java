@@ -1,6 +1,5 @@
 package cloud.nativ.javaee.hello;
 
-import cloud.nativ.javaee.integration.CentralConfiguration;
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Metric;
@@ -31,7 +30,7 @@ public class HelloWorldResource {
     private Counter counter;
 
     @Inject
-    private CentralConfiguration configuration;
+    private HelloConfiguration configuration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,10 +40,9 @@ public class HelloWorldResource {
     @Timed(name = "helloWorld", absolute = true, unit = MetricUnits.MILLISECONDS)
     public JsonObject helloWorld() {
         counter.inc();
-        String hostname = configuration.getHostname();
         return Json.createObjectBuilder()
-                .add("message", "Building Microservices with Java EE 8 and MicroProfile.")
-                .add("hostname", hostname)
+                .add("message", configuration.getMessage())
+                .add("hostname", configuration.getHostname())
                 .build();
     }
 }
