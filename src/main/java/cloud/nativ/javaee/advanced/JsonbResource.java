@@ -80,7 +80,7 @@ public class JsonbResource {
         @JsonbNumberFormat("#,##0.00")
         private final Integer answerToEverything;
 
-        @JsonbDateFormat("yyyy-MM-dd")
+        // @JsonbDateFormat("yyyy-MM-dd")
         private final LocalDate today;
 
         // @JsonbTransient
