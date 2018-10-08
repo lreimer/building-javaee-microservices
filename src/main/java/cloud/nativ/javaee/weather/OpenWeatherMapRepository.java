@@ -1,8 +1,8 @@
 package cloud.nativ.javaee.weather;
 
 import lombok.extern.java.Log;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -46,8 +46,8 @@ public class OpenWeatherMapRepository {
         }
     }
 
-    @Timeout(value = 5L, unit = ChronoUnit.SECONDS)
-    @Retry(delay = 500L, maxRetries = 1)
+    @CircuitBreaker(delay = 10, delayUnit = ChronoUnit.SECONDS, failureRatio = 0.75, requestVolumeThreshold = 10)
+    @Timeout(value = 3, unit = ChronoUnit.SECONDS)
     @Fallback(fallbackMethod = "defaultWeather")
     @CacheResult(cacheName = "weatherCache")
     public String getWeather(String city) {
