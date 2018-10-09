@@ -4,6 +4,8 @@ import lombok.extern.java.Log;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Timeout;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import javax.annotation.PostConstruct;
@@ -50,6 +52,7 @@ public class OpenWeatherMapRepository {
     @Timeout(value = 3, unit = ChronoUnit.SECONDS)
     @Fallback(fallbackMethod = "defaultWeather")
     @CacheResult(cacheName = "weatherCache")
+    @Timed(name = "getOpenWeatherMap", absolute = true, unit = MetricUnits.MILLISECONDS)
     public String getWeather(String city) {
         JsonObject response = openWeatherMap.getWeather(city, configuration.getWeatherAppId());
         LOGGER.log(Level.INFO, "Received {0}", response);
